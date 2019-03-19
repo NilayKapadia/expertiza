@@ -45,16 +45,22 @@ class UsersController < ApplicationController
   # for anonymized view for demo purposes
   #
   def set_anonymized_view
-    local_redis=$redis
-    anonymized_view_starter_ips = local_redis.get('anonymized_view_starter_ips') || ''
+    anonymized_view_starter_ips = redis.get('anonymized_view_starter_ips') || ''
     session[:ip] = request.remote_ip
     if anonymized_view_starter_ips.include? session[:ip]
       anonymized_view_starter_ips.delete!(" #{session[:ip]}")
     else
       anonymized_view_starter_ips += " #{session[:ip]}"
     end
-    local_redis.set('anonymized_view_starter_ips', anonymized_view_starter_ips)
+    redis.set('anonymized_view_starter_ips', anonymized_view_starter_ips)
     redirect_to :back
+  end
+  
+  #
+  # create a local instance of Redis variable
+  #
+  def redis
+    Redis.current
   end
 
   # for displaying the list of users
