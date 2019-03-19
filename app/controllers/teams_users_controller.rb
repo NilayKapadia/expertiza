@@ -33,9 +33,9 @@ class TeamsUsersController < ApplicationController
     if team.is_a?(AssignmentTeam)
       assignment = Assignment.find(team.parent_id)
       if AssignmentParticipant.find_by(user_id: user.id, assignment_id: assignment.id).nil?
-        url_Assignment_Participant_List = url_for controller: 'participants', action: 'list', id: assignment.id, model: 'Assignment', authorization: 'participant'
-        flash[:error] = 
-        "\"#{user.name}\" is not a participant of the current assignment. Please <a href=\"#{url_Assignment_Participant_List}\">add</a> this user before continuing."
+        url_assignment_participant_list = url_for controller: 'participants', action: 'list', id: assignment.id, model: 'Assignment', authorization: 'participant'
+        flash[:error] =
+          "\"#{user.name}\" is not a participant of the current assignment. Please <a href=\"#{url_assignment_participant_list}\">add</a> this user before continuing."
       else
         add_member_return = team.add_member(user, team.parent_id)
         flash[:error] = "This team already has the maximum number of members." if add_member_return == false
@@ -47,8 +47,8 @@ class TeamsUsersController < ApplicationController
       course = Course.find(team.parent_id)
       if CourseParticipant.find_by(user_id: user.id, parent_id: course.id).nil?
         url_Course_Participant_List = url_for controller: 'participants', action: 'list', id: course.id, model: 'Course', authorization: 'participant'
-        flash[:error] = 
-        "\"#{user.name}\" is not a participant of the current course. Please <a href=\"#{url_Course_Participant_List}\">add</a> this user before continuing."
+        flash[:error] =
+          "\"#{user.name}\" is not a participant of the current course. Please <a href=\"#{url_Course_Participant_List}\">add</a> this user before continuing."
       else
         add_member_return = team.add_member(user)
         flash[:error] = "This team already has the maximum number of members." if add_member_return == false
