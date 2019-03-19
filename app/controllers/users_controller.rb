@@ -218,7 +218,7 @@ class UsersController < ApplicationController
   end
 
   def update
-    #params.permit!
+    # params.permit!
     @user = User.find params[:id]
     # update username, when the user cannot be deleted
     # rename occurs in 'show' page, not in 'edit' page
