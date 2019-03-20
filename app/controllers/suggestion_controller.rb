@@ -77,7 +77,7 @@ class SuggestionController < ApplicationController
                             session[:user].name
                           else
                             ""
-    end
+                          end
 
     if @suggestion.save
       flash[:success] = 'Thank you for your suggestion!' if @suggestion.unityID != ''
@@ -111,7 +111,7 @@ class SuggestionController < ApplicationController
   # If user submits a suggestion anonymously and it gets approved -> DOES NOT get an email
   def send_email
     proposer = User.find_by(id: @user_id)
-    if proposer
+    unless prosper
       teams_users = TeamsUser.where(team_id: @team_id)
       cc_mail_list = []
       teams_users.each do |teams_user|
@@ -146,17 +146,15 @@ class SuggestionController < ApplicationController
       # if this user do not have team in this assignment, create one for him/her and assign this topic to this team.
       if @team_id.nil?
         create_new_team
-      else # this user has a team in this assignment, check whether this team has topic or not
-        if @topic_id.nil?
+      elsif @topic_id.nil? # this user has a team in this assignment, check whether this team has topic or not
           # clean waitlists
           SignedUpTeam.where(team_id: @team_id, is_waitlisted: 1).destroy_all
           SignedUpTeam.create(topic_id: @signuptopic.id, team_id: @team_id, is_waitlisted: 0)
-        else
+      else
           @signuptopic.private_to = @user_id
           @signuptopic.save
           # if this team has topic, Expertiza will send an email (suggested_topic_approved_message) to this team
           send_email
-        end
       end
     else
       # if this team has topic, Expertiza will send an email (suggested_topic_approved_message) to this team
