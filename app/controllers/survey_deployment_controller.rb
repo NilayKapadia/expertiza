@@ -146,14 +146,13 @@ class SurveyDeploymentController < ApplicationController
     @global_survey_present = false
 
     return unless !sd.global_survey_id
-      @global_survey_present = true
-      @global_questionnaire = Questionnaire.find(sd.global_survey_id)
-      @global_questions = Question.where(questionnaire_id: @global_questionnaire.id)
-      # retrieve all the answers on the global survey based on this survey deploment.
-      # Please note that, for a survey deployment which requires taking a global survey,
-      # there will be two different response_maps.
-      @global_answers = list_answers(@global_questions, response_map_list)
-    
+    @global_survey_present = true
+    @global_questionnaire = Questionnaire.find(sd.global_survey_id)
+    @global_questions = Question.where(questionnaire_id: @global_questionnaire.id)
+    # retrieve all the answers on the global survey based on this survey deploment.
+    # Please note that, for a survey deployment which requires taking a global survey,
+    # there will be two different response_maps.
+    @global_answers = list_answers(@global_questions, response_map_list)
   end
 
   private
