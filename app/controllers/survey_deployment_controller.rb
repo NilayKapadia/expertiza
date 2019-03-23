@@ -153,8 +153,6 @@ class SurveyDeploymentController < ApplicationController
       # Please note that, for a survey deployment which requires taking a global survey,
       # there will be two different response_maps.
       @global_answers = list_answers(@global_questions, response_map_list)
-    else
-      # Placeholder else statement to avoid codeclimate issue of guard clause
     end
   end
 
