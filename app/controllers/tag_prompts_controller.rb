@@ -8,7 +8,7 @@ class TagPromptsController < ApplicationController
   # GET /tag_prompts/view
   def show
     @popup = false
-    return unless (params.key?(:popup) and params[:popup].to_s.casecmp('true').zero?)
+    return unless params.key?(:popup) and params[:popup].to_s.casecmp('true').zero?
     @popup = true
     render layout: false
   end
