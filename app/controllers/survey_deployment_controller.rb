@@ -12,10 +12,7 @@ class SurveyDeploymentController < ApplicationController
   end
 
   def survey_deployment_type
-    constant = survey_deployment_types.find do |alert|
-      alert.name == params[:type]
-    end
-    raise "Error" if constant.nil?
+    params[:type].constantize if params[:type].in? survey_deployment_types
   end
 
   def new
