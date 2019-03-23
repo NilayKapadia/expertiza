@@ -22,8 +22,10 @@ class TeamsController < ApplicationController
     session[:team_type] = params[:type] if params[:type] && allowed_types.include?(params[:type])
     @assignment = Assignment.find_by(id: params[:id]) if session[:team_type] == 'Assignment'
     begin
-      @root_node = Object.const_get(session[:team_type] + 'Node').find_by(node_object_id: params[:id])
-      @child_nodes = @root_node.get_teams
+      if Team::TEAM_TYPES.include? session[:team_type]
+        @root_node = Object.const_get(session[:team_type] + 'Node').find_by(node_object_id: params[:id])
+        @child_nodes = @root_node.get_teams
+      end
     rescue StandardError
       flash[:error] = $ERROR_INFO
     end
