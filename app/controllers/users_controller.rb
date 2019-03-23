@@ -55,7 +55,7 @@ class UsersController < ApplicationController
     redis.set('anonymized_view_starter_ips', anonymized_view_starter_ips)
     redirect_to :back
   end
-  
+
   #
   # create a local instance of Redis variable
   #
