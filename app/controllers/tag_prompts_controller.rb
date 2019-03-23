@@ -12,7 +12,7 @@ class TagPromptsController < ApplicationController
       @popup = true
       render layout: false
     else
-      # This is a placeholder else to avoid codeclimate issue of guard clause usage
+      return
     end
   end
 
