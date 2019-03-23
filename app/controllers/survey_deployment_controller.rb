@@ -12,10 +12,7 @@ class SurveyDeploymentController < ApplicationController
   end
 
   def survey_deployment_type
-    if params[:type].in? survey_deployment_types
-      temp = params[:type]
-      temp.constantize
-    end
+    params[:type].constantize if params[:type].in? survey_deployment_types
   end
 
   def new
